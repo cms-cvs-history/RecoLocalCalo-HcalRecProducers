@@ -35,5 +35,21 @@ process PROD  = {
 		untracked string fileName = 'Persist.root'
 	}
 
-	path p = { unpacker, dumper, reco, dumper2, out }
+
+	es_module = HcalDbProducer {untracked string dbSource = "hardcode"}
+	
+	es_source = HcalDbSourceHardcode {}
+
+	module hcalCalib = EventSetupRecordDataGetter { VPSet toGet = {
+	       {string record = "HcalDbRecord" 
+                vstring data = { 
+                                "HcalDbServiceHardcode",
+                                "HcalDbServiceHandle"} } } 
+	       untracked bool verbose = true 
+	}
+
+
+	path p = { hcalCalib, unpacker, dumper, reco, dumper2, out }
+
+
 }
