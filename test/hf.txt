@@ -1,6 +1,6 @@
 process PROD  = {
 
-	source = HcalTBInputService { 
+	source = HcalTBSource { 
 		untracked vstring fileNames = { 'tb04_hf_electron_16322.root' }
 		untracked int32 maxEvents = 100
 //		untracked int32 hcalFedOffset = 559
@@ -38,13 +38,32 @@ process PROD  = {
 
 	es_module = HcalDbProducer {untracked string dbSource = "hardcode"}
 	
-	es_source = HcalDbSourceHardcode {}
+
+        es_module = HcalDbProducer {untracked string dbSource = "hardcode"}
+
+	es_source es_0 = HcalDbSource {}
+
+	es_source es_1 = EmptyESSource {untracked string recordName = "HcalPedestalsRcd"
+                                   untracked bool iovIsRunNotTime = true
+				   untracked vuint32 firstValid = {1,2,3}
+                                  }
+	es_source es_2 = EmptyESSource {untracked string recordName = "HcalPedestalWidthsRcd"
+                                   untracked bool iovIsRunNotTime = true
+				   untracked vuint32 firstValid = {1,2,3}
+                                  }
+	es_source es_3 = EmptyESSource {untracked string recordName = "HcalGainsRcd"
+                                   untracked bool iovIsRunNotTime = true
+				   untracked vuint32 firstValid = {1,2,3}
+                                  }
+	es_source es_4 = EmptyESSource {untracked string recordName = "HcalGainWidthsRcd"
+                                   untracked bool iovIsRunNotTime = true
+				   untracked vuint32 firstValid = {1,2,3}
+                                  }
 
 	module hcalCalib = EventSetupRecordDataGetter { VPSet toGet = {
 	       {string record = "HcalDbRecord" 
                 vstring data = { 
-                                "HcalDbServiceHardcode",
-                                "HcalDbServiceHandle"} } } 
+                                "HcalDbService"} } } 
 	       untracked bool verbose = true 
 	}
 
