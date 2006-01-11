@@ -17,7 +17,6 @@ process PROD  = {
 		untracked int32 FilterAmpBegin = 3
 		untracked int32 FilterAmpEnd = 6
 		untracked double FilterAmpLevel = 20.0
-		untracked string readoutMapSource = 'file://../../../CondFormats/HcalMapping/test/hf_tb04.txt'
 	}
 
 	module reco = HcalSimpleReconstructor {
@@ -35,40 +34,22 @@ process PROD  = {
 		untracked string fileName = 'Persist.root'
 	}
 
+	es_module = HcalDbProducer {}
+        es_source = HcalHardcodeCalibrations {
+                untracked vstring toGet = {
+                          "Pedestals","PedestalWidths",
+                          "Gains", "GainWidths", "QIEShape", "QIEData",
+                          "channelQuality"}
+        }
 
-	es_module = HcalDbProducer {untracked string dbSource = "hardcode"}
-	
+        es_source es_ascii = HcalTextCalibrations { VPSet input = {
+                                              {string object = "ElectronicsMap"
+                                               string file = "CondFormats/HcalMapping/test/hf_tb04.txt"
+                                              }
+                }
+        }  
 
-        es_module = HcalDbProducer {untracked string dbSource = "hardcode"}
-
-	es_source es_0 = HcalDbSource {}
-
-	es_source es_1 = EmptyESSource {untracked string recordName = "HcalPedestalsRcd"
-                                   untracked bool iovIsRunNotTime = true
-				   untracked vuint32 firstValid = {1,2,3}
-                                  }
-	es_source es_2 = EmptyESSource {untracked string recordName = "HcalPedestalWidthsRcd"
-                                   untracked bool iovIsRunNotTime = true
-				   untracked vuint32 firstValid = {1,2,3}
-                                  }
-	es_source es_3 = EmptyESSource {untracked string recordName = "HcalGainsRcd"
-                                   untracked bool iovIsRunNotTime = true
-				   untracked vuint32 firstValid = {1,2,3}
-                                  }
-	es_source es_4 = EmptyESSource {untracked string recordName = "HcalGainWidthsRcd"
-                                   untracked bool iovIsRunNotTime = true
-				   untracked vuint32 firstValid = {1,2,3}
-                                  }
-
-	module hcalCalib = EventSetupRecordDataGetter { VPSet toGet = {
-	       {string record = "HcalDbRecord" 
-                vstring data = { 
-                                "HcalDbService"} } } 
-	       untracked bool verbose = true 
-	}
-
-
-	path p = { hcalCalib, unpacker, dumper, reco, dumper2, out }
+	path p = { unpacker, dumper, reco, dumper2, out }
 
 
 }
