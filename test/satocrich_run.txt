@@ -20,9 +20,10 @@ process PROD  = {
 	}
 
 	module reco = HcalSimpleReconstructor {
-	       untracked int32 firstSample = 4
-	       untracked int32 samplesToAdd = 4
-	       untracked string Subdetector = 'HBHE'
+               int32 firstSample = 4  
+               int32 samplesToAdd = 4
+               bool correctTimeSlew = true
+               string Subdetector = 'HBHE'
 	}
 
         module dumper = HcalDigiDump {
