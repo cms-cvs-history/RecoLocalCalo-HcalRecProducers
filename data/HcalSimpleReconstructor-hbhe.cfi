@@ -7,7 +7,7 @@ module hbhereco = HcalSimpleReconstructor {
     /// Indicate how many digi time samples to integrate over
     int32 samplesToAdd = 4
     /// Indicate whether to apply energy-dependent time-slew corrections
-    bool correctTimeSlew = true
+    bool correctForTimeslew = true
     /// Indicate which subdetector to reconstruct for.
     string Subdetector = 'HBHE'
     /// Give the label associated with the HcalRawToDigi unpacker module.
