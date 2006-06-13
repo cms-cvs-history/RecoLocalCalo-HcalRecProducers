@@ -3,11 +3,11 @@
 module hfreco = HcalSimpleReconstructor {
     /// Indicate which digi time sample to start with when
     /// integrating the signal
-    int32 firstSample = 4
+    int32 firstSample = 3
     /// Indicate how many digi time samples to integrate over
-    int32 samplesToAdd = 3
+    int32 samplesToAdd = 1
     /// Indicate whether to apply energy-dependent time-slew corrections
-    bool correctForTimeslew = true
+    bool correctForTimeslew = false
     /// Indicate which subdetector to reconstruct for.
     string Subdetector = 'HF'
     /// Give the label associated with the HcalRawToDigi unpacker module.
