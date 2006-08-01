@@ -12,5 +12,5 @@ module hfreco = HcalSimpleReconstructor {
     string Subdetector = 'HF'
     /// Give the label associated with the HcalRawToDigi unpacker module.
     /// NOTE: cross-dependency here.
-    string digiLabel = 'hcaldigi'
+    string digiLabel = 'hcalDigis'
 }
