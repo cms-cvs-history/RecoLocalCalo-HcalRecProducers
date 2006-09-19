@@ -1,0 +1,16 @@
+/// This version sets up a reconstructor for the HF subdetector
+///
+module zdcreco = HcalSimpleReconstructor {
+    /// Indicate which digi time sample to start with when
+    /// integrating the signal
+    int32 firstSample = 3
+    /// Indicate how many digi time samples to integrate over
+    int32 samplesToAdd = 1
+    /// Indicate whether to apply energy-dependent time-slew corrections
+    bool correctForTimeslew = false
+    /// Indicate which subdetector to reconstruct for.
+    string Subdetector = 'ZDC'
+    /// Give the label associated with the HcalRawToDigi unpacker module.
+    /// NOTE: cross-dependency here.
+    InputTag digiLabel = hcalDigis
+}
