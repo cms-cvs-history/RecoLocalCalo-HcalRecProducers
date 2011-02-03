@@ -348,12 +348,21 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
       edm::Handle<HFDigiCollection> digi;
       e.getByLabel(inputLabel_,digi);
 
-// ugly hack only for purposes of 3.11 HF treatment
-      if (e.isRealData() && e.run() <= 153943) reco_.resetTimeSamples(3,4);
-      else reco_.resetTimeSamples(4,2);
+      // ugly hack only for purposes of 3.11 HF treatment
+      if (e.isRealData() && e.run() <= 153943)
+	{
+	  reco_.resetTimeSamples(3,4);
+	  hfdigibit_->resetTimeSamples(3,4);
+	  firstauxTS_=3; // hard-code starting position of aux word
+	}
+      else
+	{
+	  reco_.resetTimeSamples(4,2);
+	  hfdigibit_->resetTimeSamples(3,3); // flag uses 3 TS, even if reco uses 2 TS
+	  firstauxTS_=3; // hard-code 
+	}
 
-
-      ///////////////////////////////////////////////////////////////// HF
+   ///////////////////////////////////////////////////////////////// HF
       // create empty output
       std::auto_ptr<HFRecHitCollection> rec(new HFRecHitCollection);
       rec->reserve(digi->size());

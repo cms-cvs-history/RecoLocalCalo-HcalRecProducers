@@ -17,7 +17,7 @@ hfreco = cms.EDProducer("HcalHitReconstructor",
 
                         # Set offset between firstSample value and
                         # first sample to be stored in aux word
-                        firstAuxOffset = cms.int32(0),
+                        firstAuxOffset = cms.int32(-1), # if firstSample = 4, offset should be -1 so that aux word begins storing digis starting at TS = 3
 
                         setHSCPFlags  = cms.bool(True),
                         setSaturationFlags = cms.bool(True),
