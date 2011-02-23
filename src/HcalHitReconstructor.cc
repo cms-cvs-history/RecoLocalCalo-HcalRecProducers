@@ -352,13 +352,13 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
       if (e.isRealData() && e.run() <= 153943)
 	{
 	  reco_.resetTimeSamples(3,4);
-	  hfdigibit_->resetTimeSamples(3,4);
+	  if (hfdigibit_) hfdigibit_->resetTimeSamples(3,4);
 	  firstauxTS_=3; // hard-code starting position of aux word
 	}
       else
 	{
 	  reco_.resetTimeSamples(4,2);
-	  hfdigibit_->resetTimeSamples(3,3); // flag uses 3 TS, even if reco uses 2 TS
+	  if (hfdigibit_) hfdigibit_->resetTimeSamples(3,3); // flag uses 3 TS, even if reco uses 2 TS
 	  firstauxTS_=3; // hard-code 
 	}
 
