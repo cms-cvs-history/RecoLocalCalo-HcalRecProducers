@@ -6,7 +6,7 @@ hfreco = cms.EDProducer("HcalHitReconstructor",
                         digiLabel = cms.InputTag("hcalDigis"),
                         samplesToAdd = cms.int32(2),
                         Subdetector = cms.string('HF'),
-                        firstSample = cms.int32(4),
+                        firstSample = cms.int32(2),  # Changed from '4'
                         correctForPhaseContainment = cms.bool(False),
                         correctForTimeslew = cms.bool(False),
                         dropZSmarkedPassed = cms.bool(True),
@@ -24,9 +24,9 @@ hfreco = cms.EDProducer("HcalHitReconstructor",
                         setTimingTrustFlags = cms.bool(True),
                         setPulseShapeFlags = cms.bool(False),  # not yet defined for HF
 
-                        digistat= cms.PSet(HFdigiflagFirstSample     = cms.int32(3),  # These may be different from samples used for reconstruction
-                                           HFdigiflagSamplesToAdd    = cms.int32(3), # if using 2 TS reco, sum pulse shape over 3 TS 
-                                           HFdigiflagExpectedPeak    = cms.int32(4), # expected TS position of pulse peak
+                        digistat= cms.PSet(HFdigiflagFirstSample     = cms.int32(1),  # Changed from '3'
+                                           HFdigiflagSamplesToAdd    = cms.int32(3), # 
+                                           HFdigiflagExpectedPeak    = cms.int32(2), #  Changed from '4'
                                            HFdigiflagMinEthreshold  = cms.double(40), # minimum energy required to be flagged as noisy
                                            # Following parameters are used for determining
                                            # minimum threshold fC(peak)/sum_fC(HFsamplesToAdd) > [0] - exp([1]+[2]*Energy)

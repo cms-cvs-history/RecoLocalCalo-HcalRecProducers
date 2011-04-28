@@ -355,12 +355,15 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
 	  if (hfdigibit_) hfdigibit_->resetTimeSamples(3,4);
 	  firstauxTS_=3; // hard-code starting position of aux word
 	}
-      else
+
+      else if (e.isRealData() && e.run()<=163590)  // correct to last run using TS4 as peak
 	{
 	  reco_.resetTimeSamples(4,2);
 	  if (hfdigibit_) hfdigibit_->resetTimeSamples(3,3); // flag uses 3 TS, even if reco uses 2 TS
 	  firstauxTS_=3; // hard-code 
 	}
+      // if run# is >= 163591, just use cfg values.
+
 
    ///////////////////////////////////////////////////////////////// HF
       // create empty output
