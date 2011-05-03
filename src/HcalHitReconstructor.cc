@@ -200,7 +200,7 @@ HcalHitReconstructor::~HcalHitReconstructor() {
 }
 
 void HcalHitReconstructor::beginRun(edm::Run&r, edm::EventSetup const & es){
-
+  if (tsFromDB_==false) return;  // don't read DB unless instructed to do so by boolean
   edm::ESHandle<HcalRecoParams> p;
   es.get<HcalRecoParamsRcd>().get(p);
   paramTS = new HcalRecoParams(*p.product());
@@ -208,6 +208,7 @@ void HcalHitReconstructor::beginRun(edm::Run&r, edm::EventSetup const & es){
 }
 
 void HcalHitReconstructor::endRun(edm::Run&r, edm::EventSetup const & es){
+  if (tsFromDB_==false) return;
   if (paramTS) delete paramTS;
 }
 
