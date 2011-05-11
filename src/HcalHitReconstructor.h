@@ -29,8 +29,8 @@
 
     /** \class HcalHitReconstructor
 	
-    $Date: 2011/02/25 10:29:33 $
-    $Revision: 1.13 $
+    $Date: 2011/05/10 16:06:10 $
+    $Revision: 1.13.10.1 $
     \author J. Temple & E. Yazgan
     ** Based on HcalSimpleReconstructor.h by J. Mans
     */
@@ -66,7 +66,6 @@
       bool setTimingTrustFlags_; // turn on/off HF timing uncertainty flag 
       bool setPulseShapeFlags_; //  turn on/off HBHE fit-based noise flags
       bool dropZSmarkedPassed_; // turn on/off dropping of zero suppression marked and passed digis
-      bool overrideHFnoisecfgs_;
 
       int firstAuxTS_;
   

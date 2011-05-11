@@ -52,7 +52,6 @@ HcalHitReconstructor::HcalHitReconstructor(edm::ParameterSet const& conf):
   hfPET_                      = 0;
   saturationFlagSetter_       = 0;
   HFTimingTrustFlagSetter_    = 0;
-  overrideHFnoisecfgs_ = false;
 
   if (setSaturationFlags_)
     {
@@ -128,8 +127,6 @@ HcalHitReconstructor::HcalHitReconstructor(edm::ParameterSet const& conf):
     produces<HORecHitCollection>();
   } else if (!strcasecmp(subd.c_str(),"HF")) {
     subdet_=HcalForward;
-    overrideHFnoisecfgs_ = conf.getParameter<bool>("overrideHFnoisecfgs");
-
 
     if (setTimingTrustFlags_) {
       
@@ -469,31 +466,28 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
           toaddMem = toadd;
 	}
 
-	// Reset flag values if instructed to override values in cfg
-	if (overrideHFnoisecfgs_==true)
-	  {	    
-	    if (first ==3 && toadd == 4)  // 2010 data cfgs
-	      {
-		firstAuxTS_=3;
-		// Provide firstSample, samplesToAdd, expected peak for digi flag
-		// (This can be different from rechit value!)
-		if (hfdigibit_!=0)
-		  hfdigibit_->resetFlagTimeSamples(3,4,4);
-	      } // 2010 data; firstSample = 3; samplesToAdd =4 
-	    else if (first == 4 && toadd == 2)  // 2011 data cfgs, 10-TS digis
-	      {
-		firstAuxTS_=3;
-		if (hfdigibit_!=0)
-		  hfdigibit_->resetFlagTimeSamples(3,3,4);
-	      } // 2010 data; firstSample = 4; samplesToAdd =2 
-	    else if (first == 2 && toadd == 2)  // 2011 data cfgs; 6-TS digis
-	      {
-		firstAuxTS_=1;
-		if (hfdigibit_!=0)
-		  hfdigibit_->resetFlagTimeSamples(1,3,2);
-	      } // 2010 data; firstSample = 2; samplesToAdd =2 
-	  } // if (overrideHFnoisecfgs_==true)
+	// Digi parameters depending on Reco ones from DB
+	if (first ==3 && toadd == 4)  { // 2010 data cfgs
+	  firstAuxTS_=3;
+	  // Provide firstSample, samplesToAdd, expected peak for digi flag
+	  // (This can be different from rechit value!)
+	  if (hfdigibit_!=0)
+	    hfdigibit_->resetFlagTimeSamples(3,4,4);
+	} // 2010 data; firstSample = 3; samplesToAdd =4 
+	else if (first == 4 && toadd == 2)  // 2011 data cfgs, 10-TS digis
+	  {
+	    firstAuxTS_=3;
+	    if (hfdigibit_!=0)
+	      hfdigibit_->resetFlagTimeSamples(3,3,4);
+	  } // 2010 data; firstSample = 4; samplesToAdd =2 
+	else if (first == 2 && toadd == 2)  // 2011 data cfgs; 6-TS digis
+	  {
+	    firstAuxTS_=1;
+	    if (hfdigibit_!=0)
+	      hfdigibit_->resetFlagTimeSamples(1,3,2);
+	  } // 2010 data; firstSample = 2; samplesToAdd =2 
 
+      
 	rec->push_back(reco_.reconstruct(*i,first,toadd,coder,calibrations));
 
 	// Set auxiliary flag
