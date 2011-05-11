@@ -471,9 +471,8 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
 
 	// Reset flag values if instructed to override values in cfg
 	if (overrideHFnoisecfgs_==true)
-	  {
-	    
-	    if (firstSample_==3 && samplesToAdd_==4)  // 2010 data cfgs
+	  {	    
+	    if (first ==3 && toadd == 4)  // 2010 data cfgs
 	      {
 		firstAuxTS_=3;
 		// Provide firstSample, samplesToAdd, expected peak for digi flag
@@ -481,13 +480,13 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
 		if (hfdigibit_!=0)
 		  hfdigibit_->resetFlagTimeSamples(3,4,4);
 	      } // 2010 data; firstSample = 3; samplesToAdd =4 
-	    else if (firstSample_==4 && samplesToAdd_==2)  // 2011 data cfgs, 10-TS digis
+	    else if (first == 4 && toadd == 2)  // 2011 data cfgs, 10-TS digis
 	      {
 		firstAuxTS_=3;
 		if (hfdigibit_!=0)
 		  hfdigibit_->resetFlagTimeSamples(3,3,4);
 	      } // 2010 data; firstSample = 4; samplesToAdd =2 
-	    else if (firstSample_==2 && samplesToAdd_==2)  // 2011 data cfgs; 6-TS digis
+	    else if (first == 2 && toadd == 2)  // 2011 data cfgs; 6-TS digis
 	      {
 		firstAuxTS_=1;
 		if (hfdigibit_!=0)
