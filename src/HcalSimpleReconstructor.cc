@@ -108,8 +108,6 @@ void HcalSimpleReconstructor::process(edm::Event& e, const edm::EventSetup& even
       reco_.initPulseCorr(toadd);
       toaddMem = toadd;
     }
-std::cout << *i << std::endl;
-std::cout << reco_.reconstruct(*i,first,toadd,*coder,calibrations) << std::endl;
     rec->push_back(reco_.reconstruct(*i,first,toadd,*coder,calibrations));
     delete coder;
 
