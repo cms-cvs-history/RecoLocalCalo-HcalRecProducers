@@ -15,8 +15,8 @@
 
     /** \class HcalSimpleReconstructor
 	
-    $Date: 2011/02/25 10:29:33 $
-    $Revision: 1.5 $
+    $Date: 2011/08/17 22:18:46 $
+    $Revision: 1.5.12.1 $
     \author J. Mans - Minnesota
     */
     class HcalSimpleReconstructor : public edm::EDProducer {
@@ -41,6 +41,7 @@
       int firstSample_;
       int samplesToAdd_;
       bool tsFromDB_;
+      double firstDepthWeight_;
       bool upgrade_;
 
       HcalRecoParams* paramTS;  // firstSample & sampleToAdd from DB  

@@ -23,6 +23,7 @@ HcalSimpleReconstructor::HcalSimpleReconstructor(edm::ParameterSet const& conf):
   firstSample_(conf.getParameter<int>("firstSample")),
   samplesToAdd_(conf.getParameter<int>("samplesToAdd")),
   tsFromDB_(conf.getParameter<bool>("tsFromDB")),
+  firstDepthWeight_(conf.getParameter<double>("firstDepthWeight")),
   upgrade_(false)
 {
   std::string subd=conf.getParameter<std::string>("Subdetector");
@@ -83,6 +84,10 @@ void HcalSimpleReconstructor::process(edm::Event& e, const edm::EventSetup& even
   int first = firstSample_;
   int toadd = samplesToAdd_;
   typename DIGICOLL::const_iterator i;
+
+  if( upgrade_) reco_.setD1W(firstDepthWeight_);
+  else reco_.setD1W(1.0);
+
   for (i=digi->begin(); i!=digi->end(); i++) {
     HcalDetId cell = i->id();
     DetId detcell=(DetId)cell;
@@ -108,6 +113,7 @@ void HcalSimpleReconstructor::process(edm::Event& e, const edm::EventSetup& even
       reco_.initPulseCorr(toadd);
       toaddMem = toadd;
     }
+    
     rec->push_back(reco_.reconstruct(*i,first,toadd,*coder,calibrations));
     delete coder;
 
