@@ -337,6 +337,14 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
 		       << std::endl;
 	     */
 
+	     // QPLL HACK - no pulse correcttion
+             if( samplesToAdd_ == 5) {
+
+	       //	       std::cout << "-------------------------------"
+	       //			 << " QPLL ----------------------------" << std::endl;
+
+	     correctForPhaseContainment = false;
+	     }
              reco_.setRecoParams(correctForTimeslew,correctForPhaseContainment,useLeakCorrection_,pileupCleaningID,phaseNS);
           }
         }
@@ -354,7 +362,25 @@ void HcalHitReconstructor::produce(edm::Event& e, const edm::EventSetup& eventSe
 	const HcalQIECoder* channelCoder = conditions->getHcalCoder (cell);
 	HcalCoderDb coder (*channelCoder, *shape);
 
-	rec->push_back(reco_.reconstruct(*i,first,toadd,coder,calibrations));
+	//  Standard 
+	//	rec->push_back(reco_.reconstruct(*i,first,toadd,coder,calibrations));
+
+        HBHERecHit tmp_hit1 (reco_.reconstruct(*i,first,toadd,coder,calibrations));
+
+	// HACK to re-reco QPLL-unstable channels 
+        if(toadd == 5 ) { 
+       
+          toadd = 2;
+          float time = tmp_hit1.time();
+	  if(time < -5.0) {first = 3; toadd = 3;}        // left
+	  if(time >= -5.0 && time <= 15.0)  first = 4;   // center 
+	  if(time > 15.0)  first = 5;                    // right 
+           
+	  rec->push_back(reco_.reconstruct(*i,first,toadd,coder,calibrations));
+	}	        
+        else
+          rec->push_back(tmp_hit1);
+
 
 	// Set auxiliary flag
 	int auxflag=0;
